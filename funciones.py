@@ -1,6 +1,4 @@
 import streamlit as st
-import subprocess
-import os
 import yt_dlp as ytdlp
 
 class YouTubeDownloader:
@@ -12,7 +10,8 @@ class YouTubeDownloader:
         self.ytdlp = ytdlp.YoutubeDL({
             # 'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
             'format': 'bestaudio/best' if format_type == 'audio' else 'best',
-            'progress_hooks': [self._progress_hook]
+            'progress_hooks': [self._progress_hook],
+            'cookies': '/cookies.txt',  # Especifica la ruta a tus cookies aquí
         })
 
     def _progress_hook(self, d):
