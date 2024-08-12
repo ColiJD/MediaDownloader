@@ -10,10 +10,11 @@ def main():
     # Opciones del sistema operativo
     opciones = ["Windows", "macOS", "Linux", "Android"]
     # Rutas correspondientes a cada sistema operativo
+    usuario = os.getlogin()
     rutas_descarga = {
-        "Windows": "C:\\Users\\[Usuario]\\Downloads",
-        "macOS": "/Users/[Usuario]/Downloads",
-        "Linux": "/home/[Usuario]/Downloads",
+        "Windows": f"C:\\Users\\{usuario}\\Downloads",
+        "macOS": f"/Users/{usuario}/Downloads",
+        "Linux": f"/home/{usuario}/Downloads",
         "Android": "storage/emulated/0/Download"
     }
 
@@ -26,7 +27,16 @@ def main():
     RutaFolder = st.selectbox("Selecciones la direccion para guardar el video", opciones)
     # Obtener la ruta correspondiente según la selección
     ruta_seleccionada = rutas_descarga.get(RutaFolder, "Ruta no disponible")
-    st.write(f"La ruta seleccionada para guardar el video es: {ruta_seleccionada}")
+    try:
+        # Verificar si la ruta existe, si no, crearla
+        if not os.path.exists(ruta_seleccionada):
+            os.makedirs(ruta_seleccionada)
+            st.write(f"Se ha creado la ruta: {ruta_seleccionada}")
+        else:
+            st.write(f"La ruta seleccionada para guardar el video es: {ruta_seleccionada}")
+    except Exception as e:
+        st.error(f"Error al crear la ruta: {e}")
+        return
 
     # Verificar cambios y advertir al usuario si es necesario
     check_and_warn_changes(url, format_type)
