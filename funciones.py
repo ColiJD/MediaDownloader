@@ -11,7 +11,8 @@ class YouTubeDownloader:
             # 'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
             'format': 'bestaudio/best' if format_type == 'audio' else 'best',
             'progress_hooks': [self._progress_hook],
-            'cookies': '/cookies.txt',  # Especifica la ruta a tus cookies aquí
+            'cookies': '/cookies.txt',  # Especifica la ruta a tus cookies aquí,
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',  # Simula un navegador
         })
 
     def _progress_hook(self, d):
