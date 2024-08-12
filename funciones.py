@@ -4,13 +4,13 @@ import os
 import yt_dlp as ytdlp
 
 class YouTubeDownloader:
-    def __init__(self, url, download_folder, format_type):
+    def __init__(self, url,format_type):
         self.url = url
-        self.download_folder = download_folder
+        # self.download_folder = download_folder
         self.format_type = format_type
         self.progress_bar = st.progress(0)
         self.ytdlp = ytdlp.YoutubeDL({
-            'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
+            # 'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
             'format': 'bestaudio/best' if format_type == 'audio' else 'best',
             'progress_hooks': [self._progress_hook]
         })
@@ -38,21 +38,21 @@ class YouTubeDownloader:
         except Exception as e:
             st.error(f"Error durante la descarga: {e}")
 
-def get_folder_path():
-    try:
-        result = subprocess.run(["python", "select_folder.py"], capture_output=True, text=True)
-        return result.stdout.strip()
-    except Exception as e:
-        st.error(f"Error al seleccionar la carpeta: {e}")
-        return None
+# def get_folder_path():
+#     try:
+#         result = subprocess.run(["python", "select_folder.py"], capture_output=True, text=True)
+#         return result.stdout.strip()
+#     except Exception as e:
+#         st.error(f"Error al seleccionar la carpeta: {e}")
+#         return None
 
-def select_folder_button():
-    if st.session_state.download_folder is None:
-        if st.button("Seleccionar Carpeta de Destino"):
-            st.session_state.download_folder = get_folder_path()
-            st.write(f"Ruta de la carpeta de destino: {st.session_state.download_folder}" 
-                     if st.session_state.download_folder 
-                     else "No se seleccionó ninguna carpeta.")
+# def select_folder_button():
+#     if st.session_state.download_folder is None:
+#         if st.button("Seleccionar Carpeta de Destino"):
+#             st.session_state.download_folder = get_folder_path()
+#             st.write(f"Ruta de la carpeta de destino: {st.session_state.download_folder}" 
+#                      if st.session_state.download_folder 
+#                      else "No se seleccionó ninguna carpeta.")
 
 def validate_url_and_format(url, format_type):
     if url:
@@ -80,8 +80,8 @@ def setup_session_state():
     """
     Inicializa y configura las variables de estado de la sesión si no están definidas.
     """
-    if 'download_folder' not in st.session_state:
-        st.session_state.download_folder = None
+    # if 'download_folder' not in st.session_state:
+    #     st.session_state.download_folder = None
     if 'validated' not in st.session_state:
         st.session_state.validated = False
     if 'url' not in st.session_state:
